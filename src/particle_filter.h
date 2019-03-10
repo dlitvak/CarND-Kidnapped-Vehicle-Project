@@ -11,7 +11,11 @@
 
 #include <string>
 #include <vector>
+#include <random>
 #include "helper_functions.h"
+
+using std::vector;
+using std::default_random_engine;
 
 struct Particle {
   int id;
@@ -25,7 +29,7 @@ struct Particle {
 };
 
 
-class ParticleFilter {  
+class ParticleFilter {
  public:
   // Constructor
   // @param num_particles Number of particles
@@ -63,9 +67,17 @@ class ParticleFilter {
    * @param predicted Vector of predicted landmark observations
    * @param observations Vector of landmark observations
    */
-  void dataAssociation(std::vector<LandmarkObs> predicted, 
-                       std::vector<LandmarkObs>& observations);
-  
+  vector<int> dataAssociation(const Map &map_landmarks, vector<LandmarkObs> &observations);
+
+  /**
+   * Transform an observation obs by Particle p from vehicle to the map coordinates
+   *
+   * @param p
+   * @param obs
+   * @return obs in map coords
+   */
+  LandmarkObs transform_obs(const Particle &p, const LandmarkObs &obs);
+
   /**
    * updateWeights Updates the weights for each particle based on the likelihood
    *   of the observed measurements. 
@@ -119,7 +131,11 @@ class ParticleFilter {
   bool is_initialized;
   
   // Vector of weights of all particles
-  std::vector<double> weights; 
+  std::vector<double> weights;
+
+  // random number generator
+  default_random_engine gen;
+
 };
 
 #endif  // PARTICLE_FILTER_H_
