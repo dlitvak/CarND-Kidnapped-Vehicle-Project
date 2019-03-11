@@ -106,7 +106,7 @@ vector<int> ParticleFilter::dataAssociation(const Map &map_landmarks, vector<Lan
         double min_dist = 999999;
         double curr_dist;
         // Iterate through all landmarks to check which is closest
-        for (int j = 0; j < map_landmarks.landmark_list.size(); ++j) {
+        for (int j = 0; j < int(map_landmarks.landmark_list.size()); ++j) {
           Map::single_landmark_s lm = map_landmarks.landmark_list[j];
           // Calculate Euclidean distance
           curr_dist = sqrt(pow(obs.x - lm.x_f, 2)
@@ -155,7 +155,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
     double std_dev_obs_x = std_landmark[0];
     double std_dev_obs_y = std_landmark[1];
     particle.weight = 1.;
-    for (int i=0; i<landmark_assoc.size(); ++i) {
+    for (int i=0; i<int(landmark_assoc.size()); ++i) {
       int lm = landmark_assoc[i];
       Map::single_landmark_s landmark = map_landmarks.landmark_list[lm];
       LandmarkObs obs = trans_obs[i];
@@ -196,7 +196,7 @@ void ParticleFilter::resample() {
   vector<Particle> resampled_particles;
 
   vector<double> weights;
-  for (Particle p : particles) {
+  for (Particle& p : particles) {
     weights.push_back(p.weight);
   }
 
