@@ -103,10 +103,10 @@ vector<int> ParticleFilter::dataAssociation(const Map &map_landmarks, vector<Lan
     // Iterate through each transformed observation to associate to a landmark
     for (LandmarkObs obs : observations) {
         int closest_landmark = -1;
-        double min_dist = 999999;
+        double min_dist = 9999999;
         double curr_dist;
         // Iterate through all landmarks to check which is closest
-        for (int j = 0; j < int(map_landmarks.landmark_list.size()); ++j) {
+        for (size_t j = 0; j < map_landmarks.landmark_list.size(); ++j) {
           Map::single_landmark_s lm = map_landmarks.landmark_list[j];
           // Calculate Euclidean distance
           curr_dist = sqrt(pow(obs.x - lm.x_f, 2)
@@ -114,7 +114,7 @@ vector<int> ParticleFilter::dataAssociation(const Map &map_landmarks, vector<Lan
           // Compare to min_dist and update if closest
           if (curr_dist < min_dist) {
             min_dist = curr_dist;
-            closest_landmark = j;
+            closest_landmark = int(j);
           }
         }
 
@@ -155,7 +155,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
     double std_dev_obs_x = std_landmark[0];
     double std_dev_obs_y = std_landmark[1];
     particle.weight = 1.;
-    for (int i=0; i<int(landmark_assoc.size()); ++i) {
+    for (size_t i=0; i<landmark_assoc.size(); ++i) {
       int lm = landmark_assoc[i];
       Map::single_landmark_s landmark = map_landmarks.landmark_list[lm];
       LandmarkObs obs = trans_obs[i];

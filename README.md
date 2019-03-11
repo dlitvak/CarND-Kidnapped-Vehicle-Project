@@ -1,5 +1,8 @@
 # Vehicle Localization with Particle Filter
 
+## Proof of Compilation
+![Proof of Comp](compile_screenshot.png)
+
 This project implements a Particle Filter to localize a vehicle based 
 on the sensor measurements of the landmarks coming from a simulator. 
 The measurements are converted to the map coordinates and are associated
